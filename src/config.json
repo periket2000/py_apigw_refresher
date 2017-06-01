@@ -7,6 +7,14 @@
         "test": {
             "appname": "app2.mesos.local",
             "upstream": "test"
+        },
+        "backend-group_bridged-webapp": {
+            "appname": "app3.mesos.local",
+            "upstream": "back_bw"
+        },
+        "backend-group_simple-docker-scala-app": {
+            "appname": "app4.mesos.local",
+            "upstream": "back_sds"
         }
     }
 }

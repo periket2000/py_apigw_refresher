@@ -18,7 +18,7 @@ server {
 }
 
 server {
-        listen 443 default_server ssl;
+        listen 443 ssl;
         keepalive_timeout 70;
 
         ssl_certificate     /etc/nginx/server.crt;
