@@ -1,0 +1,12 @@
+{
+    "application_mapping": {
+        "py-docker": {
+            "appname": "app1.mesos.local",
+            "upstream": "py_docker"
+        },
+        "test": {
+            "appname": "app2.mesos.local",
+            "upstream": "test"
+        }
+    }
+}
