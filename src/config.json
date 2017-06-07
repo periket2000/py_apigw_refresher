@@ -4,9 +4,9 @@
             "appname": "app1.mesos.local",
             "upstream": "py_docker"
         },
-        "test": {
+        "py-gauth": {
             "appname": "app2.mesos.local",
-            "upstream": "test"
+            "upstream": "py_gauth"
         },
         "backend-group_bridged-webapp": {
             "appname": "app3.mesos.local",

@@ -106,7 +106,6 @@ class Tasks:
             try:
                 i+=1
                 url = self.scheme + next(master) + ':' + self.marathon_port + self.tasks_uri
-                print("getting ... " + url)
                 response = http.request('GET', url, headers=heads)
             except Exception as e:
                 pass
@@ -128,7 +127,6 @@ class Tasks:
                 data = self.mappings().get(app)
                 if data:
                     data.update(e)
-                    print(app + ': ' + str(data))
                     if txt:
                         ret = ret + "\n\n" + appfile.render(servername=data.get('appname'), upstream=data.get('upstream'), servers=data.get('endpoints'))
                     else:
