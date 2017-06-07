@@ -23,7 +23,8 @@ def generate_tgz():
 
 @app.route('/config')
 def stream_config():
-    if generate_tgz():
+    result, _ = generate_tgz()
+    if result:
         return send_from_directory(config_dir, fic, as_attachment=True, mimetype=mime_type)
     else:
         return Response('Nothing generated', mimetype="text/plain")

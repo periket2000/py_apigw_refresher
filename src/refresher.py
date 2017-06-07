@@ -4,6 +4,9 @@ import os
 import json
 
 template = '''
+##########################################################
+# Application {{upstream}} on endpoint {{servername}}
+##########################################################
 upstream {{ upstream }} {
 {% for serverip in servers %}
     server {{ serverip }} fail_timeout=10s;
@@ -111,10 +114,10 @@ class Tasks:
             if data:
                 self.apps = data.split('\n')
                 yield from self.app()
-        #yield None
 
-    def generate(self):
+    def generate(self, txt=False):
         generated = False
+        ret = ""
         try:
             for r in self.tasks():
                 generated = True
@@ -125,15 +128,20 @@ class Tasks:
                 if data:
                     data.update(e)
                     print(app + ': ' + str(data))
-                    with open(self.tmp_dir+'/{}.conf'.format(data.get('appname')), 'w+') as f:
-                        f.write(appfile.render(servername=data.get('appname'), upstream=data.get('upstream'), servers=data.get('endpoints')))
-                    os.rename(self.tmp_dir+'/{}.conf'.format(data.get('appname')), self.apigw_config_dir+'/{}.conf'.format(data.get('appname')))
-                    os.system("tar -cvzf config.tgz -C " + self.apigw_config_dir + " *.conf")
+                    if txt:
+                        ret = ret + "\n\n" + appfile.render(servername=data.get('appname'), upstream=data.get('upstream'), servers=data.get('endpoints'))
+                    else:
+                        with open(self.tmp_dir+'/{}.conf'.format(data.get('appname')), 'w+') as f:
+                            f.write(appfile.render(servername=data.get('appname'), upstream=data.get('upstream'), servers=data.get('endpoints')))
+                        os.rename(self.tmp_dir+'/{}.conf'.format(data.get('appname')), self.apigw_config_dir+'/{}.conf'.format(data.get('appname')))
+                        os.system("tar -cvzf config.tgz -C " + self.apigw_config_dir + " *.conf")
         except:
             generated = False
-            return generated
-        return generated
+            return generated, ret
+        return generated, ret
 
 if __name__ == "__main__":
     t = Tasks()
-    print(t.generate())   
+    val = "asdfasdf"
+    _, ret = t.generate(txt=True)
+    print(ret)
