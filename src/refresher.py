@@ -107,24 +107,33 @@ class Tasks:
             except Exception as e:
                 pass
         if response:
-            self.apps = response.data.decode('utf-8').strip().split('\n')
-            yield from self.app()
-        else:
-            yield None
+            data = response.data.decode('utf-8').strip()
+            if data:
+                self.apps = data.split('\n')
+                yield from self.app()
+        #yield None
 
     def generate(self):
-        for r in self.tasks():
-            app = r[0]
-            upstreams = r[2:]
-            e = {"endpoints": upstreams}
-            data = t.mappings().get(app)
-            if data:
-                data.update(e)
-                print(app + ': ' + str(data))
-                with open(self.tmp_dir+'/{}.conf'.format(data.get('appname')), 'w+') as f:
-                    f.write(appfile.render(servername=data.get('appname'), upstream=data.get('upstream'), servers=data.get('endpoints')))
-                os.rename(self.tmp_dir+'/{}.conf'.format(data.get('appname')), self.apigw_config_dir+'/{}.conf'.format(data.get('appname')))
+        generated = False
+        try:
+            for r in self.tasks():
+                generated = True
+                app = r[0]
+                upstreams = r[2:]
+                e = {"endpoints": upstreams}
+                data = self.mappings().get(app)
+                if data:
+                    data.update(e)
+                    print(app + ': ' + str(data))
+                    with open(self.tmp_dir+'/{}.conf'.format(data.get('appname')), 'w+') as f:
+                        f.write(appfile.render(servername=data.get('appname'), upstream=data.get('upstream'), servers=data.get('endpoints')))
+                    os.rename(self.tmp_dir+'/{}.conf'.format(data.get('appname')), self.apigw_config_dir+'/{}.conf'.format(data.get('appname')))
+                    os.system("tar -cvzf config.tgz -C " + self.apigw_config_dir + " *.conf")
+        except:
+            generated = False
+            return generated
+        return generated
 
 if __name__ == "__main__":
     t = Tasks()
-    t.generate()    
+    print(t.generate())   

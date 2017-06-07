@@ -1,3 +1,4 @@
+*config.tgz
 *.conf
 *.pyc
 __pycache__/*
