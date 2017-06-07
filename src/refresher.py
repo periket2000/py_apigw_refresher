@@ -115,7 +115,7 @@ class Tasks:
                 self.apps = data.split('\n')
                 yield from self.app()
 
-    def generate(self, txt=False):
+    def generate(self, txt=False, generate_zip=False):
         generated = False
         ret = ""
         try:
@@ -134,7 +134,8 @@ class Tasks:
                         with open(self.tmp_dir+'/{}.conf'.format(data.get('appname')), 'w+') as f:
                             f.write(appfile.render(servername=data.get('appname'), upstream=data.get('upstream'), servers=data.get('endpoints')))
                         os.rename(self.tmp_dir+'/{}.conf'.format(data.get('appname')), self.apigw_config_dir+'/{}.conf'.format(data.get('appname')))
-                        os.system("tar -cvzf config.tgz -C " + self.apigw_config_dir + " *.conf")
+                        if generate_zip:
+                            os.system("tar -cvzf config.tgz -C " + self.apigw_config_dir + " *.conf")
         except:
             generated = False
             return generated, ret

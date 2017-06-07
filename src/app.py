@@ -19,7 +19,7 @@ def hello_world():
 
 def generate_tgz():
     t = Tasks()
-    return t.generate()
+    return t.generate(generate_zip=True)
 
 @app.route('/config')
 def stream_config():
