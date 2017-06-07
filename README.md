@@ -5,4 +5,4 @@
 2. python src/app.py
 
 ## Overwrite app configuration (mappings)
-1. curl --upload-file new_config.json http://<host>:<port>/update
+1. curl --upload-file new_config.json http://host:port/update
