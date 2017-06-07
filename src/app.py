@@ -1,16 +1,17 @@
 import os
 from refresher import Tasks
 from flask import Flask, request, Response, send_from_directory
-app = Flask(__name__)
+from api_blueprints.config import update_config
+import src.config as config
 
-config_dir = os.getenv('APIGW_CONFIG_DIR', os.path.dirname(os.path.realpath(__file__)))
-mime_type = 'application/tar+gzip'
-fic = 'config.tgz'
+app = Flask(__name__)
+app.register_blueprint(update_config)
 
 welcome = """
 API GATEWAY REFRESHER.
 
-@endpoints = /config : get config for the api gateway.
+@endpoints = /config [GET]: get config for the api gateway.
+           = /update [PUT]: update the configuration of the aplication "config.json"
 """
 
 @app.route('/')
@@ -25,7 +26,7 @@ def generate_tgz():
 def stream_config():
     result, _ = generate_tgz()
     if result:
-        return send_from_directory(config_dir, fic, as_attachment=True, mimetype=mime_type)
+        return send_from_directory(config.apigw_config_dir, config.zip_fic, as_attachment=True, mimetype=config.tgz_mime_type)
     else:
         return Response('Nothing generated', mimetype="text/plain")
 
