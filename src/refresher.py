@@ -117,14 +117,17 @@ class Tasks:
 
     def endpoints(self):
         generated = False
-        ret = "# <application_name> : <endpoint>"
+        ret = "# <application_name> : <endpoint> : <microservice locations>"
         try:
             for r in self.tasks():
                 generated = True
                 app = r[0]
+                upstreams = r[2:]
+                e = {"endpoints": upstreams}
                 data = self.mappings().get(app)
                 if data:
-                    ret = ret + "\n\n" + data.get('upstream') + " : " + data.get('appname')
+                    data.update(e)
+                    ret = ret + "\n\n" + data.get('upstream') + " : " + data.get('appname') + " : " + str(data.get('endpoints'))
         except:
             generated = False
             return generated, ret
