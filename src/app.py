@@ -18,15 +18,17 @@ API GATEWAY REFRESHER.
 def hello_world():
     return Response(welcome, mimetype="text/plain")
 
-def generate_tgz():
+def generate():
     t = Tasks()
-    return t.generate(generate_zip=True)
+    _, res = t.generate()
+    return res
 
 @app.route('/config')
 def stream_config():
-    result, _ = generate_tgz()
+    t = Tasks()
+    result, val = t.generate()
     if result:
-        return send_from_directory(config.apigw_config_dir, config.zip_fic, as_attachment=True, mimetype=config.tgz_mime_type)
+        return Response(str(val), mimetype="text/plain")
     else:
         return Response('Nothing generated', mimetype="text/plain")
 

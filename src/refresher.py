@@ -115,7 +115,7 @@ class Tasks:
                 self.apps = data.split('\n')
                 yield from self.app()
 
-    def generate(self, txt=False, generate_zip=False):
+    def generate(self):
         generated = False
         ret = ""
         try:
@@ -127,14 +127,7 @@ class Tasks:
                 data = self.mappings().get(app)
                 if data:
                     data.update(e)
-                    if txt:
-                        ret = ret + "\n\n" + appfile.render(servername=data.get('appname'), upstream=data.get('upstream'), servers=data.get('endpoints'))
-                    else:
-                        with open(self.tmp_dir+'/{}.conf'.format(data.get('appname')), 'w+') as f:
-                            f.write(appfile.render(servername=data.get('appname'), upstream=data.get('upstream'), servers=data.get('endpoints')))
-                        os.rename(self.tmp_dir+'/{}.conf'.format(data.get('appname')), self.apigw_config_dir+'/{}.conf'.format(data.get('appname')))
-                        if generate_zip:
-                            os.system("tar -cvzf " + self.apigw_config_dir + "/" + config.zip_fic + " -C " + self.apigw_config_dir + " *.conf")
+                    ret = ret + "\n\n" + appfile.render(servername=data.get('appname'), upstream=data.get('upstream'), servers=data.get('endpoints'))
         except:
             generated = False
             return generated, ret
@@ -142,5 +135,5 @@ class Tasks:
 
 if __name__ == "__main__":
     t = Tasks()
-    _, ret = t.generate(txt=True)
+    _, ret = t.generate()
     print(ret)
