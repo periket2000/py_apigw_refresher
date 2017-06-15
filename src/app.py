@@ -10,8 +10,9 @@ app.register_blueprint(update_config)
 welcome = """
 API GATEWAY REFRESHER.
 
-@endpoints = /config [GET]: get config for the api gateway.
-           = /update [PUT]: update the configuration of the aplication "config.json"
+@endpoints = /config    [GET]: get config for the api gateway.
+           = /update    [PUT]: update the configuration of the aplication "config.json"
+           = /endpoints [GET]: get the endpoints for all the applications
 """
 
 @app.route('/')
@@ -22,6 +23,15 @@ def generate():
     t = Tasks()
     _, res = t.generate()
     return res
+
+@app.route('/endpoints')
+def stream_endpoints():
+    t = Tasks()
+    result, val = t.endpoints()
+    if result:
+        return Response(str(val), mimetype="text/plain")
+    else:
+        return Response('Nothing generated', mimetype="text/plain")
 
 @app.route('/config')
 def stream_config():

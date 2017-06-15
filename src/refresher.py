@@ -115,6 +115,21 @@ class Tasks:
                 self.apps = data.split('\n')
                 yield from self.app()
 
+    def endpoints(self):
+        generated = False
+        ret = "# <application_name> : <endpoint>"
+        try:
+            for r in self.tasks():
+                generated = True
+                app = r[0]
+                data = self.mappings().get(app)
+                if data:
+                    ret = ret + "\n\n" + data.get('upstream') + " : " + data.get('appname')
+        except:
+            generated = False
+            return generated, ret
+        return generated, ret
+
     def generate(self):
         generated = False
         ret = ""
