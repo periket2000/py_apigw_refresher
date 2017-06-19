@@ -2,19 +2,26 @@
     "application_mapping": {
         "py-docker": {
             "appname": "app1.mesos.local",
-            "upstream": "py_docker"
+            "upstream": "py_docker",
+            "secured": "true",
+            "access_by_lua_file": "/etc/nginx/access.lua"
         },
         "py-gauth": {
             "appname": "app2.mesos.local",
-            "upstream": "py_gauth"
+            "upstream": "py_gauth",
+            "secured": "false"
         },
         "backend-group_bridged-webapp": {
             "appname": "app3.mesos.local",
-            "upstream": "back_bw"
+            "upstream": "back_bw",
+            "secured": "true",
+            "access_by_lua_file": "/etc/nginx/access.lua"
         },
         "backend-group_simple-docker-scala-app": {
             "appname": "app4.mesos.local",
-            "upstream": "back_sds"
+            "upstream": "back_sds",
+            "secured": "true",
+            "access_by_lua_file": "/etc/nginx/access.lua"
         }
     }
 }

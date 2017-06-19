@@ -41,6 +41,7 @@ server {
 
         # our endpoint would be http://{{ servername }}/api
         location ~ ^/(\/?)(.*)$ {
+            {% if secured == "true" %}access_by_lua_file {{access_file}};{% endif %}
             # for relative calls from upstream servers
             proxy_set_header Host $http_host;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -145,7 +146,11 @@ class Tasks:
                 data = self.mappings().get(app)
                 if data:
                     data.update(e)
-                    ret = ret + "\n\n" + appfile.render(servername=data.get('appname'), upstream=data.get('upstream'), servers=data.get('endpoints'))
+                    ret = ret + "\n\n" + appfile.render(servername=data.get('appname', None), 
+                                                        upstream=data.get('upstream', None), 
+                                                        secured=data.get('secured', 'false'), 
+                                                        access_file=data.get('access_by_lua_file', None), 
+                                                        servers=data.get('endpoints', None))
         except:
             generated = False
             return generated, ret
