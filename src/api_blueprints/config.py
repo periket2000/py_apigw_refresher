@@ -22,5 +22,5 @@ def update():
             f.write(request.stream.read().decode('utf-8'))
         return Response("Configuration updated", mimetype="text/plain")
     except:
-        restore()
+        restore(backup_file)
         return Response("Exception raised, nothing updated.", mimetype="text/plain")
