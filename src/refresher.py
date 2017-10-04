@@ -48,6 +48,8 @@ server {
             proxy_set_header X-M-Secure "true";
             proxy_set_header X-Forwarded-Proto $scheme;
             proxy_pass http://{{ upstream }}/$2$is_args$args;
+            # in case of failing server, go to the next one
+            proxy_next_upstream error timeout http_404;
         }
 }
 '''
