@@ -9,7 +9,9 @@
         "py-gauth": {
             "appname": "app2.mesos.local",
             "upstream": "py_gauth",
-            "secured": "false"
+            "secured": "false",
+            "#debug": "allow us to track upstream server ip",
+            "debug": "true"
         },
         "backend-group_bridged-webapp": {
             "appname": "app3.mesos.local",

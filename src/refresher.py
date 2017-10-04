@@ -50,6 +50,7 @@ server {
             proxy_pass http://{{ upstream }}/$2$is_args$args;
             # in case of failing server, go to the next one
             proxy_next_upstream error timeout http_404;
+            {% if debug_upstream == "true" %}add_header X-Upstream $upstream_addr always;{% endif %}
         }
 }
 '''
@@ -152,7 +153,8 @@ class Tasks:
                                                         upstream=data.get('upstream', None), 
                                                         secured=data.get('secured', 'false'), 
                                                         access_file=data.get('access_by_lua_file', None), 
-                                                        servers=data.get('endpoints', None))
+                                                        servers=data.get('endpoints', None),
+                                                        debug_upstream=data.get('debug', 'false'))
         except:
             generated = False
             return generated, ret
