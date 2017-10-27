@@ -111,6 +111,8 @@ class Tasks:
                 i+=1
                 url = self.scheme + next(master) + ':' + self.marathon_port + self.tasks_uri
                 response = http.request('GET', url, headers=heads)
+                if response.status != 200:
+                    response = None
             except Exception as e:
                 pass
         if response:
