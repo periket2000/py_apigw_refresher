@@ -48,8 +48,8 @@ server {
             proxy_set_header X-M-Secure "true";
             proxy_set_header X-Forwarded-Proto $scheme;
             proxy_pass http://{{ upstream }}/$2$is_args$args;
-            # in case of failing server, go to the next one
-            proxy_next_upstream error timeout http_404;
+            # in case of failing server, go to the next one (404 not found or Bad gateway while microservice is deploying)
+            proxy_next_upstream error timeout http_404 http_502;
             {% if debug_upstream == "true" %}add_header X-Upstream $upstream_addr always;{% endif %}
         }
 }
