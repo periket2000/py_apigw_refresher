@@ -26,7 +26,7 @@ def set_service(service):
 def get_service_data(path=None, shard=None):
     @client.DataWatch(zk, path)
     def my_func(data, stat):
-        result = json.loads(data)
+        result = json.loads(data.decode('utf-8'))
         set_service(result)
 
 def add_service_watch(path=None):
