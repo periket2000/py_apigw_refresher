@@ -24,6 +24,13 @@
             "upstream": "back_sds",
             "secured": "true",
             "access_by_lua_file": "/etc/nginx/access.lua"
+        },
+        "/aurora/vagrant/test/docker-nginx": {
+            "appname": "nginx.mesos.local",
+            "upstream": "nginx",
+            "secured": "false",
+            "#debug": "allow us to track upstream server ip",
+            "debug": "true"
         }
     }
 }

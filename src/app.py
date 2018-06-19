@@ -1,12 +1,13 @@
 import os
-from refresher import Tasks
 from flask import Flask, request, Response, send_from_directory
 from api_blueprints.config import update_config
 import src.config as config
 import json
+from py_blueprints.test_endpoint.blueprint import blueprint as testbp
 
 app = Flask(__name__)
 app.register_blueprint(update_config)
+app.register_blueprint(testbp)
 
 welcome = """
 API GATEWAY REFRESHER.
@@ -16,6 +17,14 @@ API GATEWAY REFRESHER.
            = /endpoints [GET]: get the endpoints for all the applications
            = /mappings  [GET]: get the current mapping configuration
 """
+
+# SCHEDULER_BACKEND should be one of [aurora, marathon]
+scheduler = os.getenv('SCHEDULER_BACKEND', 'aurora')
+if 'aurora' == scheduler:
+    from aurora_refresher import Tasks
+
+if 'marathon' == scheduler:
+    from refresher import Tasks
 
 @app.route('/')
 def landing():
