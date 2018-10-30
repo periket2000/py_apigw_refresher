@@ -18,8 +18,8 @@ API GATEWAY REFRESHER.
            = /mappings  [GET]: get the current mapping configuration
 """
 
-# SCHEDULER_BACKEND should be one of [aurora, marathon]
-scheduler = os.getenv('SCHEDULER_BACKEND', 'aurora')
+# SCHEDULER should be one of [aurora, marathon]
+scheduler = os.getenv('SCHEDULER', 'aurora')
 if 'aurora' == scheduler:
     from aurora_refresher import Tasks
 
