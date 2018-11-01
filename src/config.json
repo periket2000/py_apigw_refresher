@@ -1,5 +1,12 @@
 {
     "application_mapping": {
+        "test": {
+            "appname": "test.mybi.es",
+            "upstream": "test",
+            "secured": "false",
+            "#debug": "allow us to track upstream server ip",
+            "debug": "true"
+        },    
         "py-docker": {
             "appname": "app1.mesos.local",
             "upstream": "py_docker",
