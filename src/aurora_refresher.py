@@ -61,7 +61,6 @@ appfile = Template(template)
 
 class Tasks:
     def __init__(self):
-        self.zookeeper_services = os.getenv('ZOOKEEPER_SERVICES', '/aurora/vagrant/test/docker-nginx,/aurora/vagrant/test/wont-show').split(',')
         self.config_dir = config.config_dir
         self.apigw_config_dir = config.apigw_config_dir
         self.tmp_dir = config.tmp_dir
@@ -71,12 +70,19 @@ class Tasks:
                 self.config = json.load(f)
         except IOError:
             self.config = None
+        self.zookeeper_services = self.mapped_services()
 
     def mappings(self):
         if self.config:
             return self.config.get('application_mapping', None)
         else:
             return None
+
+    def mapped_services(self):
+        servs = []
+        for k in self.mappings().keys():
+            servs.append(k)
+        return servs
 
     def app(self):
         if self.apps:
