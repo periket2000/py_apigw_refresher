@@ -10,6 +10,7 @@ template = '''
 # Application {{upstream}} on endpoint {{servername}}
 ##########################################################
 upstream {{ upstream }} {
+    least_conn;
 {% for serverip in servers %}
     server {{ serverip }} fail_timeout=10s;
 {% endfor %}
@@ -23,7 +24,7 @@ server {
 }
 
 server {
-        listen 443 ssl;
+        listen 443 ssl http2;
         keepalive_timeout 70;
 
         ssl_certificate     /etc/nginx/server.crt;
