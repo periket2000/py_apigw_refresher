@@ -25,6 +25,9 @@ server {
         listen 443 ssl;
         keepalive_timeout 70;
 
+        access_log /dev/stdout;
+        error_log /dev/stdout;
+
         ssl_certificate     /etc/nginx/server.crt;
         ssl_certificate_key /etc/nginx/server.key;
         ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
