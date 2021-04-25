@@ -6,7 +6,7 @@ click==6.7
 Flask==0.12.2
 idna==2.5
 itsdangerous==0.24
-Jinja2==2.9.6
+Jinja2==2.11.3
 kazoo==2.5.0
 py-blueprints==1.0.1
 pycodestyle==2.3.1
