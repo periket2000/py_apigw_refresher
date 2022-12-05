@@ -1,0 +1,11 @@
+{
+    "application_mapping": {
+        "/aurora/root/test/goku": {
+            "appname": "goku.mesos.local",
+            "upstream": "goku",
+            "secured": "false",
+            "#debug": "allow us to track upstream server ip",
+            "debug": "true"
+        }
+    }
+}
